@@ -1,20 +1,29 @@
 import json
 from pathlib import Path
 
+import sys
+
 import streamlit as st
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+from demos import DEMOS  # noqa: E402
 
 R = Path(__file__).parent.parent / "reports"
 S = json.loads((R / "dataset_summary.json").read_text(encoding="utf-8"))
 
-st.markdown("""<div class="hero big"><h1>🛡️ JobGuard</h1>
+st.markdown("""<div class="hero big"><h1>JobGuard</h1>
 <p>Fake job ads trick job-seekers into paying "registration fees" or sending ID copies.
 JobGuard reads an ad, scores how likely it is to be fake, and shows the red flags behind the score.</p></div>""",
             unsafe_allow_html=True)
 
+if st.button("Try it now: check a fake ad", type="primary", icon=":material/bug_report:", width="stretch"):
+    st.session_state.update(DEMOS["fake"], autorun=True)  # the Check page runs it on arrival
+    st.switch_page("views/check.py")
+
 a, b, c = st.columns(3)
-a.page_link("views/check.py", label="Check a job ad", icon="🔍", width="stretch")
-b.page_link("views/data.py", label="Explore the data", icon="📊", width="stretch")
-c.page_link("views/findings.py", label="See what we found", icon="💡", width="stretch")
+a.page_link("views/check.py", label="Check your own ad", icon=":material/search:", width="stretch")
+b.page_link("views/data.py", label="Explore the data", icon=":material/bar_chart:", width="stretch")
+c.page_link("views/findings.py", label="See what we found", icon=":material/lightbulb:", width="stretch")
 
 st.markdown("&nbsp;")
 t = st.columns(4)
