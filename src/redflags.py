@@ -65,9 +65,12 @@ FLAGS = [
     ("overseas", "Overseas placement with visa, ticket or guaranteed job", "known",
      lambda d, r: r.str.contains(r"dubai|qatar|saudi|kuwait|oman|abroad|overseas|canada|australia", regex=True)
      & r.str.contains(r"visa|air ?ticket|guaranteed|placement|sponsor", regex=True)),
+    ("short_link", "Hides the real website behind a shortened link (bit.ly, tinyurl, etc.)", "known",
+     lambda d, r: r.str.contains(r"\b(?:bit\.ly|tinyurl\.com|cutt\.ly|goo\.gl|rb\.gy|is\.gd|t\.ly)/", regex=True)),
     ("urgent", "Pressure to act immediately", "known",
      lambda d, r: r.str.contains(r"urgent|apply (?:now|today|immediately)|hurry|limited (?:slots|vacancies|positions)|only \d+ (?:slots|positions)|first come", regex=True)),
 ]
+SEVERE = {"fee", "mobile_money", "id_request"}  # a single hit is enough to call an ad suspicious
 META = {f[0]: (f[1], f[2]) for f in FLAGS}
 STATS_PATH = Path(__file__).resolve().parent.parent / "reports" / "red_flag_stats.json"
 
@@ -80,14 +83,14 @@ def evaluate(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def triggered(row: pd.DataFrame, stats: dict):
-    """-> (data_flags, known_flags). Data flags are dicts with measured numbers, sorted by lift."""
+    """-> (data_flags, known_flags). Data flags: dicts with measured numbers, sorted by lift. Known flags: (id, label)."""
     hit = evaluate(row).iloc[0]
     data, known = [], []
     for fid, label, tier, _ in FLAGS:
         if not hit[fid]:
             continue
         if tier == "known":
-            known.append(label)
+            known.append((fid, label))
         elif fid in stats["flags"]:
             data.append(dict(stats["flags"][fid], id=fid, label=label))
     if any(d["id"] == "bare" for d in data):  # the combined flag already covers these two
@@ -136,6 +139,7 @@ if __name__ == "__main__":
                          benefits=None, has_company_logo=0)])
     got = evaluate(bad).iloc[0]
     assert all(got[k] for k in ("fee", "mobile_money", "chat_contact", "free_email", "id_request", "urgent", "phone", "email")), got[got].index.tolist()
+    assert evaluate(pd.DataFrame([dict(title="Job", company_profile=None, description="Apply at http://bit.ly/abc", requirements=None, benefits=None, has_company_logo=0)])).iloc[0]["short_link"]
     ok = pd.DataFrame([dict(title="Nurse", company_profile="Mater Hospital is a leading hospital serving Nairobi since 1962.",
                             description="Provide nursing care on the ward and keep patient records.", requirements="Diploma in nursing, KRCHN registration.",
                             benefits="Medical cover", has_company_logo=1)])
