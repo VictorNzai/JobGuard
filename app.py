@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(page_title="JobGuard", page_icon=":material/shield:", layout="wide")
 st.markdown("""
 <style>
-.block-container {padding-top: 2rem; max-width: 1100px;}
+.block-container {padding-top: 2rem; max-width: 1280px;}
 .hero {background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%); color: #fff; border-radius: 18px;
        padding: 1.6rem 1.8rem; margin-bottom: 1.4rem;}
 .hero h1 {color: #fff; margin: 0; font-size: 2rem; padding: 0;}

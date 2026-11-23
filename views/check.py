@@ -10,7 +10,7 @@ import streamlit as st
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
-from demos import BLANK, DEMOS  # noqa: E402
+from demos import BLANK, pick  # noqa: E402
 from explain import highlight, top_words  # noqa: E402
 from features import build_features  # noqa: E402
 from fetch import fetch_job  # noqa: E402
@@ -46,10 +46,14 @@ def fill(d):  # on_click callback: runs before the widgets are drawn
     ss.update(d)
 
 
+def demo(kind):  # a different random ad each click
+    ss.update(pick(kind, ss))
+
+
 def run_check():
     for k in ("result", "err", "notice", "sent"):
         ss.pop(k, None)
-    text = ss.ad.strip()
+    text = ss.description.strip()
     source = ""
     if URL_RE.fullmatch(text):  # the box holds only a link: read the page, then check what it says
         try:
@@ -59,16 +63,16 @@ def run_check():
             ss.err = f"Couldn't read that link ({e}). Paste the ad text instead."
             return
         source = text
-        ss.update(dict(BLANK, title=page["title"], location=page["location"], ad=page["description"],
+        ss.update(dict(BLANK, title=page["title"], location=page["location"], description=page["description"],
                        salary=page["salary"], employment_type=page["employment_type"], logo=page["has_image"]))
         ss.notice = ("Page read and the ad text filled in below. The logo box is ticked only if the page has an image, "
                      "so check the details tab.")
-    if not (ss.title.strip() or ss.ad.strip()):
+    if not (ss.title.strip() or ss.description.strip()):
         ss.err = "Paste the ad text or a link first."
         return
     row = pd.DataFrame([{
         "title": ss.title, "location": ss.location, "company_profile": ss.company_profile or None,
-        "description": f"{ss.ad} {ss.link}".strip(), "requirements": ss.requirements or None,
+        "description": f"{ss.description} {ss.link}".strip(), "requirements": ss.requirements or None,
         "benefits": ss.benefits or None, "salary_range": ss.salary or None,
         "employment_type": ss.employment_type or None, "telecommuting": int(ss.remote),
         "has_company_logo": int(ss.logo), "has_questions": int(ss.questions),
@@ -84,7 +88,7 @@ def run_check():
         level = "warn"  # the model is blind to M-Pesa/fee scams, so the rule tier can raise the verdict
     else:
         level = "good"
-    shown = "\n\n".join(t for t in (ss.title, ss.company_profile, ss.ad, ss.requirements, ss.benefits) if t.strip())
+    shown = "\n\n".join(t for t in (ss.title, ss.company_profile, ss.description, ss.requirements, ss.benefits) if t.strip())
     ss.result = dict(p=p, level=level, data_flags=data_flags, known=known, words=top_words(model, feats),
                      text=shown, source=source)
 
@@ -97,12 +101,12 @@ slot = st.container()  # results render here, above the input, so they are on sc
 with st.expander("The ad to check", expanded="result" not in ss, icon=":material/edit_note:"):
     tab_ad, tab_more = st.tabs(["Ad text or link", "Extra details (optional)"])
     with tab_ad:
-        st.text_area("Job ad", key="ad", height=200, label_visibility="collapsed",
+        st.text_area("Job ad", key="description", height=200, label_visibility="collapsed",
                      placeholder="Paste the job ad here, or just a link to it (public pages only; "
                                  "Facebook, LinkedIn and WhatsApp links need a login, so paste their text instead).")
         b1, b2, b3 = st.columns(3)
-        b1.button("Demo: fake ad", on_click=fill, args=(DEMOS["fake"],), icon=":material/bug_report:", width="stretch")
-        b2.button("Demo: real ad", on_click=fill, args=(DEMOS["real"],), icon=":material/work:", width="stretch")
+        b1.button("Random fake ad", on_click=demo, args=("fake",), icon=":material/bug_report:", width="stretch")
+        b2.button("Random real ad", on_click=demo, args=("real",), icon=":material/work:", width="stretch")
         b3.button("Clear", on_click=fill, args=(BLANK,), icon=":material/delete:", width="stretch")
     with tab_more:
         st.caption("Filling these in makes the score more accurate. All optional.")

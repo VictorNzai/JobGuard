@@ -6,7 +6,7 @@ import sys
 import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-from demos import DEMOS  # noqa: E402
+from demos import pick  # noqa: E402
 
 R = Path(__file__).parent.parent / "reports"
 S = json.loads((R / "dataset_summary.json").read_text(encoding="utf-8"))
@@ -17,7 +17,7 @@ JobGuard reads an ad, scores how likely it is to be fake, and shows the red flag
             unsafe_allow_html=True)
 
 if st.button("Try it now: check a fake ad", type="primary", icon=":material/bug_report:", width="stretch"):
-    st.session_state.update(DEMOS["fake"], autorun=True)  # the Check page runs it on arrival
+    st.session_state.update(pick("fake", st.session_state), autorun=True)  # the Check page runs it on arrival
     st.switch_page("views/check.py")
 
 a, b, c = st.columns(3)
