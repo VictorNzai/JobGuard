@@ -1,0 +1,138 @@
+{
+ "baseline": 0.04863912722313768,
+ "baseline_distinct": 0.04450239757718516,
+ "n": 17599,
+ "n_distinct": 11887,
+ "flags": {
+  "no_profile": {
+   "n": 3282,
+   "rate": 0.17672151127361366,
+   "lift": 3.633319949654587,
+   "share_of_fraud": 0.677570093457944,
+   "n_distinct": 2645,
+   "rate_distinct": 0.14139886578449906,
+   "lift_distinct": 3.1773314131953505,
+   "fraud_templates": 374
+  },
+  "no_logo": {
+   "n": 3623,
+   "rate": 0.15843223847640078,
+   "lift": 3.2573001926941325,
+   "share_of_fraud": 0.6705607476635514,
+   "n_distinct": 2576,
+   "rate_distinct": 0.14363354037267081,
+   "lift_distinct": 3.22754611419648,
+   "fraud_templates": 370
+  },
+  "bare": {
+   "n": 647,
+   "rate": 0.21947449768160743,
+   "lift": 4.512303369975011,
+   "share_of_fraud": 0.1658878504672897,
+   "n_distinct": 450,
+   "rate_distinct": 0.2288888888888889,
+   "lift_distinct": 5.143293425750893,
+   "fraud_templates": 103
+  },
+  "earn": {
+   "n": 805,
+   "rate": 0.2360248447204969,
+   "lift": 4.852571544668253,
+   "share_of_fraud": 0.2219626168224299,
+   "n_distinct": 533,
+   "rate_distinct": 0.19324577861163228,
+   "lift_distinct": 4.342367807857227,
+   "fraud_templates": 103
+  },
+  "wfh": {
+   "n": 390,
+   "rate": 0.2846153846153846,
+   "lift": 5.851572609633357,
+   "share_of_fraud": 0.12967289719626168,
+   "n_distinct": 243,
+   "rate_distinct": 0.102880658436214,
+   "lift_distinct": 2.311800353178215,
+   "fraud_templates": 25
+  },
+  "data_entry": {
+   "n": 796,
+   "rate": 0.2135678391959799,
+   "lift": 4.390864955619218,
+   "share_of_fraud": 0.1985981308411215,
+   "n_distinct": 468,
+   "rate_distinct": 0.15384615384615385,
+   "lift_distinct": 3.457030681983423,
+   "fraud_templates": 72
+  },
+  "no_exp": {
+   "n": 188,
+   "rate": 0.24468085106382978,
+   "lift": 5.030535394710678,
+   "share_of_fraud": 0.053738317757009345,
+   "n_distinct": 119,
+   "rate_distinct": 0.226890756302521,
+   "lift_distinct": 5.098393988975553,
+   "fraud_templates": 27
+  },
+  "pay_noexp": {
+   "n": 323,
+   "rate": 0.34674922600619196,
+   "lift": 7.129018257573565,
+   "share_of_fraud": 0.1308411214953271,
+   "n_distinct": 178,
+   "rate_distinct": 0.25280898876404495,
+   "lift_distinct": 5.680794800450288,
+   "fraud_templates": 45
+  },
+  "guaranteed": {
+   "n": 319,
+   "rate": 0.13793103448275862,
+   "lift": 2.835804060586529,
+   "share_of_fraud": 0.0514018691588785,
+   "n_distinct": 209,
+   "rate_distinct": 0.10526315789473684,
+   "lift_distinct": 2.3653367824097105,
+   "fraud_templates": 22
+  },
+  "email": {
+   "n": 1316,
+   "rate": 0.13069908814589665,
+   "lift": 2.6871182853734052,
+   "share_of_fraud": 0.20093457943925233,
+   "n_distinct": 842,
+   "rate_distinct": 0.08432304038004751,
+   "lift_distinct": 1.8947976956476837,
+   "fraud_templates": 71
+  },
+  "phone": {
+   "n": 595,
+   "rate": 0.13445378151260504,
+   "lift": 2.76431320191628,
+   "share_of_fraud": 0.09345794392523364,
+   "n_distinct": 393,
+   "rate_distinct": 0.09923664122137404,
+   "lift_distinct": 2.2299167376152615,
+   "fraud_templates": 39
+  },
+  "caps": {
+   "n": 718,
+   "rate": 0.13231197771587744,
+   "lift": 2.7202786166141673,
+   "share_of_fraud": 0.11098130841121495,
+   "n_distinct": 449,
+   "rate_distinct": 0.0935412026726058,
+   "lift_distinct": 2.101936249847382,
+   "fraud_templates": 42
+  },
+  "title_symbol": {
+   "n": 316,
+   "rate": 0.1962025316455696,
+   "lift": 4.0338415355495085,
+   "share_of_fraud": 0.07242990654205607,
+   "n_distinct": 173,
+   "rate_distinct": 0.09826589595375723,
+   "lift_distinct": 2.2081034124807415,
+   "fraud_templates": 17
+  }
+ }
+}
