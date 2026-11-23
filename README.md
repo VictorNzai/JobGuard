@@ -21,7 +21,7 @@ Duplicates are removed before splitting (70/15/15, stratified), TF-IDF lives ins
 ```bash
 python -m venv .venv
 .venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt   # or requirements.txt for just the app
 streamlit run app.py
 ```
 
@@ -83,3 +83,11 @@ notebooks/          cleaning + EDA, modelling + evaluation
 models/             saved model
 reports/figures/    charts used in the slides
 ```
+
+## Deploy (Streamlit Community Cloud)
+
+1. Push this repo to GitHub (the model and reports are committed; `data/` is not).
+2. Go to https://share.streamlit.io, choose **New app**, pick this repo, branch `main`, main file `app.py`.
+3. Under **Advanced settings** choose Python 3.12 or newer (the pinned numpy/scipy need it).
+
+`requirements.txt` holds only what the app needs. Use `requirements-dev.txt` to re-run the notebooks.
