@@ -52,6 +52,10 @@ Final test set (2,640 real ads, v2 at threshold 0.906), fake class: **precision 
 
 Outside check on modern scams (`reports/augmentation_results_300_900.json`): on a 47-ad set (19 fake) v2 caught 53% of fakes at its threshold vs 0% for v1, with no false alarms. That set is tiny, so this is encouraging, not proven. Other public sets we found (`balanced_en`, `adaption`) are copies of EMSCAD, and the Qatar extended dataset has no downloadable data, so none were used. Synthetic-only scores are not reported because the same generator wrote both sets.
 
+## Verdict and feedback
+
+Three verdicts: **Likely fake** (score at or above the tuned threshold), **Suspicious** (score of 50% or more, or a serious scam trick such as a fee request, M-Pesa/Paybill or an ID request, or two or more tricks), **Looks legitimate**. The rule tier can raise a verdict because the model never saw modern Kenyan scams. "Words that raised the score" come from the Logistic Regression member's coefficients (`src/explain.py`). The "Is this score wrong?" box appends to `data/feedback.csv` (git-ignored; free hosts wipe it on redeploy, so download it before you redeploy or point it at a sheet or database).
+
 ## How the app explains a score
 
 The score comes from the stacked model. The explanation is a list of named red flags (`src/redflags.py`) in two tiers:
